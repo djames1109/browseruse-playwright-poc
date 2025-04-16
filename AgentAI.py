@@ -5,11 +5,11 @@ from browser_use.agent.service import Agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import SecretStr
 
-api_key = os.environ['GEMINI_API_KEY']
-if not api_key:
-    raise ValueError("GEMINI_API_KEY environment variable is not set.")
+from OrcLLM import OrcLLM
 
-llm = ChatGoogleGenerativeAI(model='gemini-2.5-pro-exp-03-25', api_key=SecretStr(api_key))
+# api_key = os.environ['GEMINI_API_KEY']
+# llm = ChatGoogleGenerativeAI(model='gemini-2.5-pro-exp-03-25', api_key=SecretStr(api_key))
+llm = OrcLLM()
 
 
 async def main():
