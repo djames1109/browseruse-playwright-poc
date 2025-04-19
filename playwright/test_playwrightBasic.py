@@ -17,13 +17,13 @@ def test_playwright_shortcut(page: Page):
 
 
 def test_core_locators(playwright):
-    page = get_headed_browser(playwright).new_page()
+    page:Page = get_headed_browser(playwright).new_page()
     page.goto("https://rahulshettyacademy.com/loginpagePractise/")
-    page.get_by_label("Username:").fill("rahulshettyacademy")
+    page.get_by_label("Username:").fill("rahulshettyacademy") # only works if the label is associated with the text box using 'for'.
     page.get_by_label("Password:").fill("learning")
     page.get_by_role("combobox").select_option("teach")
-    page.get_by_role("checkbox").check()
-    page.get_by_role("button").click()
+    page.locator("#terms").check() # CSS locator. this one selects the checkbox and mark it as checked
+    page.get_by_role("button", name="Sign In").click()
     time.sleep(5)
 
 
