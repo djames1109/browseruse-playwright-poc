@@ -61,6 +61,21 @@ def test_addToCart2_success(playwright: Playwright):
     page.get_by_text("Checkout").click()  # Checkout button
 
     expect(page.locator(".media")).to_have_count(2)
+    # time.sleep(5)
+
+
+def test_childWindowHandle(playwright: Playwright):
+    page = get_headed_browser(playwright).new_page()
+    page.goto("https://rahulshettyacademy.com/loginpagePractise/")
+
+    with page.expect_popup() as newPage_info:
+        page.locator(".blinkingText").click()
+        newPage = newPage_info.value
+        newPageMessage = newPage.locator(".im-para.red")
+        print(newPageMessage.text_content())
+        expect(newPageMessage).to_contain_text("mentor@rahulshettyacademy.com")
+        # time.sleep(5)
+
 
 # ==================== Helper functions ===========================
 
