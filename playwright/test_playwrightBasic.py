@@ -1,6 +1,6 @@
 import time
 
-from playwright.sync_api import Playwright, Page
+from playwright.sync_api import Playwright, Page, expect
 
 
 # playwright param below is a fixture from pytest-playwright package.
@@ -17,15 +17,30 @@ def test_playwright_shortcut(page: Page):
 
 
 def test_core_locators(playwright):
-    page:Page = get_headed_browser(playwright).new_page()
+    page: Page = get_headed_browser(playwright).new_page()
     page.goto("https://rahulshettyacademy.com/loginpagePractise/")
-    page.get_by_label("Username:").fill("rahulshettyacademy") # only works if the label is associated with the text box using 'for'.
+    page.get_by_label("Username:").fill(
+        "rahulshettyacademy")  # only works if the label is associated with the text box using 'for'.
     page.get_by_label("Password:").fill("learning")
     page.get_by_role("combobox").select_option("teach")
-    page.locator("#terms").check() # CSS locator. this one selects the checkbox and mark it as checked
+    page.locator("#terms").check()  # CSS locator. this one selects the checkbox and mark it as checked
     page.get_by_role("button", name="Sign In").click()
     time.sleep(5)
 
+
+def test_loginPage_invalidPassword(page: Page):
+    page.goto("https://rahulshettyacademy.com/loginpagePractise/")
+    page.get_by_label("Username:").fill(
+        "rahulshettyacademy")  # only works if the label is associated with the text box using 'for'.
+    page.get_by_label("Password:").fill("invalid_password")
+    page.get_by_role("combobox").select_option("teach")
+    page.locator("#terms").check()  # CSS locator. this one selects the checkbox and mark it as checked
+    page.get_by_role("button", name="Sign In").click()
+
+    expect(page.get_by_text("Incorrect username/password.")).to_be_visible()
+
+
+# ==================== Helper functions ===========================
 
 def get_headed_browser(playwright):
     browser = playwright.chromium.launch(headless=False)
