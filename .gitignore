@@ -1,4 +1,5 @@
 .idea/
 sandbox/.env
+.env
 __pycache__/
 sandbox/playwright/__pycache__/
