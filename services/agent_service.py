@@ -9,7 +9,7 @@ from langchain_openai import AzureChatOpenAI
 class AgentService:
 
     @staticmethod
-    def create_agent(use_vision: bool = True):
+    def create_agent(task: str, use_vision: bool = True):
         sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         load_dotenv()
 
@@ -30,8 +30,7 @@ class AgentService:
         )
 
         agent = Agent(
-            task='Go to google.com and search for best anime series.'
-                 'click the first link result.',
+            task=task,
             llm=llm,
             use_vision=use_vision,
         )
